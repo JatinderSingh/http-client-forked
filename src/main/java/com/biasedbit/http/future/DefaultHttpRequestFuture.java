@@ -196,6 +196,9 @@ public class DefaultHttpRequestFuture<T>
             this.executionEnd = System.nanoTime();
             this.cause = cause;
             this.done = true;
+            if (cause == HttpRequestFuture.TIMED_OUT) {
+                    this.connection.terminate(cause);
+            }
             if (this.waiters > 0) {
                 this.notifyAll();
             }
@@ -217,6 +220,9 @@ public class DefaultHttpRequestFuture<T>
             this.response = response;
             this.cause = cause;
             this.done = true;
+            if (cause == HttpRequestFuture.TIMED_OUT) {
+                    this.connection.terminate(cause);
+            }
             if (this.waiters > 0) {
                 this.notifyAll();
             }
